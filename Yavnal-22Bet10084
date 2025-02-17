@@ -1,0 +1,158 @@
+(5) Search a 2-D Matrix 
+public class Solution {
+    // Function to search for the target in the matrix
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        
+        int m = matrix.length;    // Number of rows
+        int n = matrix[0].length; // Number of columns
+        
+        // Start from the top-right corner of the matrix
+        int row = 0;
+        int col = n - 1;
+        
+        while (row < m && col >= 0) {
+            if (matrix[row][col] == target) {
+                return true;  // Target found
+            } else if (matrix[row][col] > target) {
+                col--;  // Move left
+            } else {
+                row++;  // Move down
+            }
+        }
+        
+        return false;  // Target not found
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        
+        // Example 1
+        int[][] matrix1 = {
+            {1, 4, 7, 11},
+            {2, 5, 8, 12},
+            {3, 6, 9, 16},
+            {10, 13, 14, 17}
+        };
+        System.out.println(solution.searchMatrix(matrix1, 5));  // Output: true
+
+        // Example 2
+        int[][] matrix2 = {
+            {1, 4, 7, 11},
+            {2, 5, 8, 12},
+            {3, 6, 9, 16},
+            {10, 13, 14, 17}
+        };
+        System.out.println(solution.searchMatrix(matrix2, 20));  // Output: false
+    }
+}
+(6) Super Pow in java language 
+public class Solution {
+    
+    // Helper function for modular exponentiation
+    public static int modExp(int a, long b, int mod) {
+        int result = 1;
+        a = a % mod; // Take 'a' mod 'mod' to avoid overflow
+        
+        while (b > 0) {
+            if (b % 2 == 1) {
+                result = (result * a) % mod;
+            }
+            a = (a * a) % mod;  // Square the base
+            b = b / 2;  // Reduce the exponent by half
+        }
+        
+        return result;
+    }
+    
+    // Function to calculate a^b % 1337 where b is an array
+    public static int superPow(int a, int[] b) {
+        int mod = 1337;
+        long exp = 0;
+        
+        // Convert the array b[] into a number 'exp'
+        for (int i = 0; i < b.length; i++) {
+            exp = (exp * 10 + b[i]) % (mod - 1);  // b is large, reduce modulo (mod-1) for properties of mod
+        }
+        
+        return modExp(a, exp, mod);  // Use the helper function for modular exponentiation
+    }
+    
+    public static void main(String[] args) {
+        // Example Test Cases
+        int a1 = 2;
+        int[] b1 = {3};
+        System.out.println(superPow(a1, b1)); // Output: 8
+        
+        int a2 = 2;
+        int[] b2 = {1, 0};
+        System.out.println(superPow(a2, b2)); // Output: 1024
+        
+        int a3 = 1;
+        int[] b3 = {4, 3, 3, 8, 5, 2};
+        System.out.println(superPow(a3, b3)); // Output: 1
+    }
+}
+(7) Beautiful Array in java language 
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+
+    public static int[] beautifulArray(int n) {
+        List<Integer> result = new ArrayList<>();
+        
+        // Start with a list of numbers from 1 to n
+        result.add(1);
+        
+        // Generate the beautiful array using the interleaving method
+        while (result.size() < n) {
+            List<Integer> next = new ArrayList<>();
+            
+            // Add odd numbers first
+            for (int num : result) {
+                if (num * 2 - 1 <= n) {
+                    next.add(num * 2 - 1);
+                }
+            }
+            
+            // Then add even numbers
+            for (int num : result) {
+                if (num * 2 <= n) {
+                    next.add(num * 2);
+                }
+            }
+            
+            result = next;
+        }
+        
+        // Convert the List<Integer> result to int[] for return
+        int[] beautifulArray = new int[n];
+        for (int i = 0; i < n; i++) {
+            beautifulArray[i] = result.get(i);
+        }
+        
+        return beautifulArray;
+    }
+    
+    public static void main(String[] args) {
+        // Test the solution with examples
+        int n1 = 4;
+        int[] result1 = beautifulArray(n1);
+        System.out.println("Output for n = 4: ");
+        for (int num : result1) {
+            System.out.print(num + " ");
+        }
+        
+        System.out.println();
+        
+        int n2 = 5;
+        int[] result2 = beautifulArray(n2);
+        System.out.println("Output for n = 5: ");
+        for (int num : result2) {
+            System.out.print(num + " ");
+        }
+    }
+}
