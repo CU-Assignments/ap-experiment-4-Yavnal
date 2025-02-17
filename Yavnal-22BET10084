@@ -1,0 +1,159 @@
+public class Solution {
+
+    // Function to check if a substring is nice
+    public boolean isNice(String sub) {
+        // Check if all characters in the substring have both uppercase and lowercase forms
+        for (char c : sub.toCharArray()) {
+            if (!sub.contains(String.valueOf(Character.toLowerCase(c))) || !sub.contains(String.valueOf(Character.toUpperCase(c)))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Function to find the longest nice substring
+    public String longestNiceSubstring(String s) {
+        int n = s.length();
+        String longest = "";
+
+        // Iterate through all possible substrings of s
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j <= n; j++) {
+                String substring = s.substring(i, j);
+                if (isNice(substring) && substring.length() > longest.length()) {
+                    longest = substring;
+                }
+            }
+        }
+        return longest;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        
+        String s = "abABB"; // Example input
+        System.out.println("Longest nice substring: " + solution.longestNiceSubstring(s));
+    }
+}
+
+(2) Reverse Bits Code In Java Language
+import java.util.HashSet;
+
+public class Solution {
+
+    // Function to check if a substring is nice
+    public boolean isNice(String sub) {
+        // Use sets to track the lowercase and uppercase characters
+        HashSet<Character> lowerSet = new HashSet<>();
+        HashSet<Character> upperSet = new HashSet<>();
+
+        for (char c : sub.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                lowerSet.add(c);
+            } else if (Character.isUpperCase(c)) {
+                upperSet.add(c);
+            }
+        }
+
+        // Check if for every lowercase character, the corresponding uppercase is in the string and vice versa
+        for (char c : lowerSet) {
+            if (!upperSet.contains(Character.toUpperCase(c))) {
+                return false;
+            }
+        }
+
+for (char c : upperSet) {
+            if (!lowerSet.contains(Character.toLowerCase(c))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Function to find the longest nice substring
+    public String longestNiceSubstring(String s) {
+        int n = s.length();
+        String longest = "";
+
+        // Iterate through all possible substrings of s
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j <= n; j++) {
+                String substring = s.substring(i, j);
+                if (isNice(substring) && substring.length() > longest.length()) {
+                    longest = substring;
+                }
+            }
+        }
+        return longest;
+    }
+
+    // Function to simulate unsigned behavior for 32-bit integers
+    public static long toUnsignedInt(int x) {
+        return x & 0xFFFFFFFFL;  // Mask with 0xFFFFFFFF to handle overflow
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        
+        // Example input for nice substring
+        String s = "abABB"; // Example string for nice substring test
+        System.out.println("Longest nice substring: " + solution.longestNiceSubstring(s));
+        
+        // Example input for unsigned integer handling (signed input interpreted as unsigned)
+        int signedInput = -3;
+        long unsignedOutput = toUnsignedInt(signedInput);
+        System.out.println("Unsigned representation of " + signedInput + ": " + unsignedOutput);
+    }
+}
+(3) Number of 1 bits HW 
+public class Solution {
+    // Function to count the number of set bits in an integer
+    public int hammingWeight(int n) {
+        int count = 0;
+        
+        // Iterate until all bits are checked
+        while (n != 0) {
+            // Increment count if the last bit is set (1)
+            count += n & 1;
+            // Right shift n by 1 to check the next bit
+            n >>>= 1;
+        }
+        
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        
+        // Example usage
+        int n = 29; // Binary: 11101, so there are 4 set bits
+        System.out.println("Number of set bits: " + solution.hammingWeight(n));
+    }
+}
+(4) Max SubArray in java language
+public class Solution {
+    // Function to find the maximum sum of a subarray
+    public int maxSubArray(int[] nums) {
+        // Initialize the variables for the current sum and maximum sum
+        int currentSum = nums[0];
+        int maxSum = nums[0];
+        
+        // Iterate over the array starting from the second element
+        for (int i = 1; i < nums.length; i++) {
+            // Update currentSum to be the maximum of current element alone or 
+            // current element + currentSum (to decide whether to start a new subarray or extend the existing one)
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            
+            // Update the maxSum to hold the maximum encountered so far
+            maxSum = Math.max(maxSum, currentSum);
+        }
+        
+        return maxSum;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        
+        // Example 1
+        int[] nums1 = {-2,1,-3,4,-1,2,1,-
